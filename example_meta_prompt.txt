@@ -48,7 +48,7 @@ You must output ONLY valid, minified JSON. Do not include markdown formatting, c
 
 ---
 INPUT PARAMETERS:
-Topic: university infrastructure, academic research, and mathematical or computational studies. It must transcend elementary classroom vocabulary to encompass exam preparation, grading, and specific disciplinary terminology such as algorithms and equations.
+Topic:
 Unique Batch ID:
 Number of Vocabulary Words: 150-250
 Number of Sentences (Total across all difficulties): 40
