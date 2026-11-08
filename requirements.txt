@@ -1,0 +1,4 @@
+PyQt6>=6.4.0
+gTTS>=2.3.0
+genanki>=0.13.0
+pymorphy3
