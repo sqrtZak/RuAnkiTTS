@@ -1,0 +1,54 @@
+You are an expert Russian language curriculum designer and data engineer. 
+I am building a strict "i+1" (Comprehensible Input) language learning pipeline using Anki.
+
+Please generate a vocabulary and sentence pack based on the INPUT PARAMETERS provided at the bottom of this prompt.
+
+TARGET LEVEL: The target language level is a rigorous, top-tier university A2 standard that aggressively incorporates foundational B1 syntax, lexical breadth, and structural intuition. The system must absolutely avoid generating simplistic, isolated A1-style sentences; instead, it must construct complex dependencies, enforce strict verb government, and demand the intuitive application of aspectual pairs and prefixed verbs of motion. Every generated flashcard must test a grammatical relationship, not just a direct dictionary translation.
+
+CRITICAL CONSTRAINTS:
+1. Vocabulary: Generate the requested number of Russian words related to the Topic. Words must be appropriate for A2 level. Create an ID for each based strictly on the root word (e.g., "v_kofe", "v_doroga"). Do NOT include the topic prefix or batch ID in the Vocab ID.
+2. Sentences: Generate the requested number of Russian sentences. Create a strictly unique ID for each by combining the "Unique Batch ID" provided in the input parameters and a sequential number (e.g., if the Batch ID is "cafe_aug14", use "s_cafe_aug14_001"). This is critical to prevent database collisions across multiple generations.
+3. The Dependency Rule: The sentences must ONLY use the exact vocabulary words you just generated, plus absolute beginner A1 Russian grammar/connectors (я, ты, он, она, мы, вы, они, быть, и, а, но, в, на, к, с). Do not introduce outside nouns, verbs, or adjectives.
+4. Morphological Awareness: You should naturally decline nouns and conjugate verbs in the sentences (e.g., using accusative or prepositional cases), but the ID listed in the Dependencies must point back to the root word's generic ID.
+5. Difficulty Grading & Routing: Categorize each sentence's "Difficulty" exactly as one of the following four strings:
+   - "Easy": 2-3 words. Very simple subject-verb or adjective-noun pairs.
+   - "Medium": 4-5 words. Introduces basic cases (Accusative, Prepositional) or direct objects.
+   - "Hard": 5+ words. Uses multiple cases, compound sentences, or A2-level grammatical concepts.
+   - "General": Conversational, idiomatic, or broader A2 practice sentences. 
+   *Crucial Developer Note:* If a "General" sentence uses a word not currently in your vocabulary list, you MUST generate a new Vocab_ID, add that word to the vocabulary array, and include its ID in the sentence's Dependencies field so the automated dependency resolver can track it.
+6. Grammar Notes (Cases) via Translation Field: For every sentence, identify any nouns/pronouns that are declined and state their grammatical case/reason. Append this information DIRECTLY to the end of the "Translation" string inside brackets (e.g., "I want coffee. [Cases: кофе - Accusative (Direct Object)]"). Do not create a new JSON key for cases.
+7. Dependencies Field: Every sentence must explicitly list the IDs of the generated vocabulary words it uses as a comma-separated string.
+
+OUTPUT FORMAT:
+You must output ONLY valid, minified JSON. Do not include markdown formatting, conversational filler, or explanations. The JSON schema must strictly match this structure:
+
+{
+  "vocabulary": [
+    {
+      "Vocab_ID": "v_kofe",
+      "Target_Word": "кофе",
+      "Translation": "coffee"
+    },
+    {
+      "Vocab_ID": "v_khotet",
+      "Target_Word": "хотеть",
+      "Translation": "to want"
+    }
+  ],
+  "sentences": [
+    {
+      "Sentence_ID": "s_cafe_aug14_001",
+      "Target_Sentence": "Я хочу кофе [Cases: кофе - Accusative (Direct object)].",
+      "Translation": "I want coffee. ",
+      "Dependencies": "v_kofe, v_khotet",
+      "Difficulty": "Easy"
+    }
+  ]
+}
+
+---
+INPUT PARAMETERS:
+Topic: university infrastructure, academic research, and mathematical or computational studies. It must transcend elementary classroom vocabulary to encompass exam preparation, grading, and specific disciplinary terminology such as algorithms and equations.
+Unique Batch ID:
+Number of Vocabulary Words: 150-250
+Number of Sentences (Total across all difficulties): 40
